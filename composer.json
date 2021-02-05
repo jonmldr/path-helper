@@ -1,0 +1,13 @@
+{
+    "name": "jonmldr/path-helper",
+    "description": "Helper class for creating relative paths",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jonmulder",
+            "email": "jonmldr@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
