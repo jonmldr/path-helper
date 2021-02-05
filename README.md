@@ -16,5 +16,11 @@ You can install the package via composer:
 composer require jonmldr/path-helper
 ````
 
+## Testing
+
+``` bash
+composer test
+```
+
 ## License
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
