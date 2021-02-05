@@ -63,9 +63,9 @@ class PathHelperTest extends TestCase
 
     public function testUseCase(): void
     {
-        $favicon = '/favicon.ico';
-        $projectDir = '/user/projects/my-project/';
-        $assetsDir = './public/assets/';
+        $favicon = './favicon.ico';
+        $projectDir = '/user/projects/my-project/src/';
+        $assetsDir = '../public/assets/';
 
         self::assertEquals('/user/projects/my-project/public/assets/favicon.ico', PathHelper::path($projectDir, $assetsDir, $favicon));
     }
