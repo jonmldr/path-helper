@@ -6,6 +6,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jonmldr/path-helper.svg?style=flat-square)](https://packagist.org/packages/jonmldr/path-helper)
 [![PHP Version Support](https://img.shields.io/packagist/php-v/jonmldr/path-helper.svg?style=flat-square)](https://packagist.org/packages/jonmldr/path-helper)
 
+Helper for combining parts of a relative path.
+
 ![Path helper](https://raw.githubusercontent.com/jonmldr/path-helper/master/.github/code.png)
 
 ## Installation

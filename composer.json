@@ -1,6 +1,6 @@
 {
     "name": "jonmldr/path-helper",
-    "description": "Helper class for creating relative paths",
+    "description": "Helper for combining parts of a relative path.",
     "type": "library",
     "license": "MIT",
     "authors": [
