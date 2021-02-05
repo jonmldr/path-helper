@@ -6,6 +6,7 @@ namespace Jon\PathHelper\Tests;
 
 use Jon\PathHelper;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Comparator\Comparator;
 
 class PathHelperTest extends TestCase
 {
@@ -39,7 +40,9 @@ class PathHelperTest extends TestCase
     public function testRemovalCurrentDirectoryReference(): void
     {
         self::assertEquals('foo/bar/baz', PathHelper::path('foo/././bar/./baz'));
-        self::assertEquals('/foo/bar/baz', PathHelper::path('/foo/././bar/./baz'));
+        self::assertEquals('/foo/bar/baz/', PathHelper::path('/foo/././bar/./baz/'));
+        self::assertEquals('/foo/bar/baz', PathHelper::path('./foo/././bar/./baz'));
+        self::assertEquals('/foo/bar/baz', PathHelper::path('/./foo/././bar/./baz'));
     }
 
     public function testResolveParentReferences(): void
@@ -51,5 +54,19 @@ class PathHelperTest extends TestCase
     {
         self::assertEquals('../foo/bar/baz', PathHelper::path('../foo/bar/../bar/baz/../baz'));
         self::assertEquals('/../foo/bar/baz', PathHelper::path('/../foo/bar/../bar/baz/../baz'));
+    }
+
+    public function testFilename(): void
+    {
+        self::assertEquals('foo/bar/baz/favicon.ico', PathHelper::path('foo/', '/bar//', '/baz', 'favicon.ico'));
+    }
+
+    public function testUseCase(): void
+    {
+        $favicon = '/favicon.ico';
+        $projectDir = '/user/projects/my-project/';
+        $assetsDir = './public/assets/';
+
+        self::assertEquals('/user/projects/my-project/public/assets/favicon.ico', PathHelper::path($projectDir, $assetsDir, $favicon));
     }
 }

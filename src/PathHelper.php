@@ -44,7 +44,7 @@ abstract class PathHelper
         $path = implode('/', $parts);
 
         // Leading slash
-        if (strpos($arguments[0], '/') === 0) {
+        if (strpos($arguments[0], '/') === 0 || strpos($arguments[0], './') === 0) {
             $path = '/' . $path;
         }
 
