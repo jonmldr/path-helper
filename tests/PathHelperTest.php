@@ -41,7 +41,7 @@ class PathHelperTest extends TestCase
     {
         self::assertEquals('foo/bar/baz', PathHelper::path('foo/././bar/./baz'));
         self::assertEquals('/foo/bar/baz/', PathHelper::path('/foo/././bar/./baz/'));
-        self::assertEquals('/foo/bar/baz', PathHelper::path('./foo/././bar/./baz'));
+        self::assertEquals('foo/bar/baz', PathHelper::path('./foo/././bar/./baz'));
         self::assertEquals('/foo/bar/baz', PathHelper::path('/./foo/././bar/./baz'));
     }
 
