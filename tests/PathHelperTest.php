@@ -6,7 +6,6 @@ namespace Jon\PathHelper\Tests;
 
 use Jon\PathHelper;
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\Comparator\Comparator;
 
 class PathHelperTest extends TestCase
 {
@@ -58,14 +57,19 @@ class PathHelperTest extends TestCase
 
     public function testFilename(): void
     {
-        self::assertEquals('foo/bar/baz/favicon.ico', PathHelper::path('foo/', '/bar//', '/baz', 'favicon.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar', 'baz.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar/', 'baz.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar', '//baz.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar/', '//baz.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar', './baz.ico'));
+        self::assertEquals('foo/bar/baz.ico', PathHelper::path('foo/bar/', './baz.ico'));
     }
 
     public function testUseCase(): void
     {
-        $favicon = './favicon.ico';
         $projectDir = '/user/projects/my-project/src/';
         $assetsDir = '../public/assets/';
+        $favicon = './favicon.ico';
 
         self::assertEquals('/user/projects/my-project/public/assets/favicon.ico', PathHelper::path($projectDir, $assetsDir, $favicon));
     }
