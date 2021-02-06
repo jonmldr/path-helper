@@ -17,7 +17,7 @@ abstract class PathHelper
         }
 
         $parts = [];
-        foreach ($arguments as $index => $part) {
+        foreach ($arguments as $part) {
             $parts = [...$parts, ...array_filter(explode('/', $part))];
         }
 
