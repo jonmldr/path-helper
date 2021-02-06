@@ -13,6 +13,7 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
+        '@Symfony' => true,
         'strict_param' => false,
         'ordered_imports' => true,
         'phpdoc_align' => false,
