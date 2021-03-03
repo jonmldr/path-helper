@@ -35,7 +35,7 @@ abstract class PathHelper
                 continue;
             }
 
-            // Don not resolve reference if no previous component has been found
+            // Do not resolve reference if no previous component has been found
             $previousIndex = self::findPreviousNonReferencingComponent($components, $index);
             if ($previousIndex === null) {
                 continue;
