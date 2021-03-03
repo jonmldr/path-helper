@@ -22,8 +22,7 @@ abstract class PathHelper
         }
 
         /*
-         * Resolve parent references (..)
-         * & remove current dir reference (.)
+         * Resolve resolvable parent directory references (..) & remove current directory references (.)
          */
         foreach ($components as $index => $component) {
             if ($component === '.') {
@@ -36,12 +35,13 @@ abstract class PathHelper
                 continue;
             }
 
-            $parentIndex = self::findPreviousNonReferencingIndex($components, $index);
-            if ($parentIndex === null) {
+            // Don not resolve reference if no previous component has been found
+            $previousIndex = self::findPreviousNonReferencingComponent($components, $index);
+            if ($previousIndex === null) {
                 continue;
             }
 
-            unset($components[$parentIndex], $components[$index]);
+            unset($components[$previousIndex], $components[$index]);
         }
 
         $path = implode('/', $components);
@@ -60,8 +60,9 @@ abstract class PathHelper
         return $path;
     }
 
-    private static function findPreviousNonReferencingIndex(array $components, int $startIndex): ?int
+    private static function findPreviousNonReferencingComponent(array $components, int $startIndex): ?int
     {
+        // Iterate through components in reverse order
         for ($i = count($components) - 1; $i >= 0; --$i) {
             // Continue if index is not before the start index
             if ($i >= $startIndex) {
