@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jon\PathHelper\Tests;
 
+use Jon\Path;
 use Jon\PathHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -82,5 +83,14 @@ class PathHelperTest extends TestCase
         $favicon = './favicon.ico';
 
         self::assertEquals('/user/projects/my-project/public/assets/favicon.ico', PathHelper::path($projectDir, $assetsDir, $favicon));
+    }
+
+    public function testAlias(): void
+    {
+        $projectDir = '/user/projects/my-project/src/';
+        $assetsDir = '../public/assets/';
+        $favicon = './favicon.ico';
+
+        self::assertEquals('/user/projects/my-project/public/assets/favicon.ico', Path::combine($projectDir, $assetsDir, $favicon));
     }
 }
