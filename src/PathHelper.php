@@ -16,35 +16,35 @@ abstract class PathHelper
             return '';
         }
 
-        $parts = [];
-        foreach ($arguments as $part) {
-            $parts = [...$parts, ...array_filter(explode('/', $part))];
+        $components = [];
+        foreach ($arguments as $component) {
+            $components = [...$components, ...array_filter(explode('/', $component))];
         }
 
         /*
          * Resolve parent references (..)
          * & remove current dir reference (.)
          */
-        foreach ($parts as $index => $part) {
-            if ($part === '.') {
-                unset($parts[$index]);
+        foreach ($components as $index => $component) {
+            if ($component === '.') {
+                unset($components[$index]);
 
                 continue;
             }
 
-            if ($part !== '..') {
+            if ($component !== '..') {
                 continue;
             }
 
-            $parentIndex = self::findPreviousNonReferencingIndex($parts, $index);
+            $parentIndex = self::findPreviousNonReferencingIndex($components, $index);
             if ($parentIndex === null) {
                 continue;
             }
 
-            unset($parts[$parentIndex], $parts[$index]);
+            unset($components[$parentIndex], $components[$index]);
         }
 
-        $path = implode('/', $parts);
+        $path = implode('/', $components);
 
         // Leading slash
         if (strpos($arguments[0], '/') === 0) {
@@ -52,30 +52,30 @@ abstract class PathHelper
         }
 
         // Trailing slash
-        $lastPart = array_slice($arguments, -1)[0];
-        if (substr($lastPart, -1) === '/') {
+        $lastComponent = array_slice($arguments, -1)[0];
+        if (substr($lastComponent, -1) === '/') {
             $path .= '/';
         }
 
         return $path;
     }
 
-    private static function findPreviousNonReferencingIndex(array $parts, int $startIndex): ?int
+    private static function findPreviousNonReferencingIndex(array $components, int $startIndex): ?int
     {
-        for ($i = count($parts) - 1; $i >= 0; --$i) {
+        for ($i = count($components) - 1; $i >= 0; --$i) {
             // Continue if index is not before the start index
             if ($i >= $startIndex) {
                 continue;
             }
 
             // Continue if element has been deleted
-            if (array_key_exists($i, $parts) === false) {
+            if (array_key_exists($i, $components) === false) {
                 continue;
             }
 
             // Continue if element is a reference
-            $part = $parts[$i];
-            if ($part === '..' || $part === '.') {
+            $component = $components[$i];
+            if ($component === '..' || $component === '.') {
                 continue;
             }
 
