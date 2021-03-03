@@ -49,6 +49,16 @@ class PathHelperTest extends TestCase
         self::assertEquals('foo/bar/baz', PathHelper::path('foo/', '/bar/../bar/baz/../', '/baz'));
     }
 
+    public function testCanResolveMultipleParentReferences(): void
+    {
+        self::assertEquals('foo/baz', PathHelper::path('foo/bar/baz', '../../', '/baz'));
+        self::assertEquals('foo/', PathHelper::path('foo/bar/baz', '../../'));
+        self::assertEquals('foo/', PathHelper::path('foo/bar/baz', '../', '../'));
+        self::assertEquals('/', PathHelper::path('foo/bar/baz', '../../../'));
+        self::assertEquals('../', PathHelper::path('foo/bar/baz', '../../../../'));
+        self::assertEquals('../..', PathHelper::path('foo/bar/baz', '../../../../..'));
+    }
+
     public function testIgnoreLeadingParentReference(): void
     {
         self::assertEquals('../foo/bar/baz', PathHelper::path('../foo/bar/../bar/baz/../baz'));

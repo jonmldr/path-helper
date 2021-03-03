@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jon;
 
 /**
- * Helper class for creating relative paths
+ * Helper class for creating relative paths.
  */
 abstract class PathHelper
 {
@@ -21,7 +21,10 @@ abstract class PathHelper
             $parts = [...$parts, ...array_filter(explode('/', $part))];
         }
 
-        // Resolve parent references (..) & remove current dir reference (.)
+        /*
+         * Resolve parent references (..)
+         * & remove current dir reference (.)
+         */
         foreach ($parts as $index => $part) {
             if ($part === '.') {
                 unset($parts[$index]);
@@ -33,8 +36,8 @@ abstract class PathHelper
                 continue;
             }
 
-            $parentIndex = $index - 1;
-            if ($parentIndex <= 0) {
+            $parentIndex = self::findPreviousNonReferencingIndex($parts, $index);
+            if ($parentIndex === null) {
                 continue;
             }
 
@@ -55,5 +58,30 @@ abstract class PathHelper
         }
 
         return $path;
+    }
+
+    private static function findPreviousNonReferencingIndex(array $parts, int $startIndex): ?int
+    {
+        for ($i = count($parts) - 1; $i >= 0; --$i) {
+            // Continue if index is not before the start index
+            if ($i >= $startIndex) {
+                continue;
+            }
+
+            // Continue if element has been deleted
+            if (array_key_exists($i, $parts) === false) {
+                continue;
+            }
+
+            // Continue if element is a reference
+            $part = $parts[$i];
+            if ($part === '..' || $part === '.') {
+                continue;
+            }
+
+            return $i;
+        }
+
+        return null;
     }
 }
